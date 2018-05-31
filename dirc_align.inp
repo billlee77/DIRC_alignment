@@ -1,0 +1,51 @@
+2
+-110,120
+0,130
+115,60
+97,5
+130
+2
+120,-50
+98,6
+130
+1
+1
+90, 210
+45
+1
+74,-70
+302
+shms.dat
+18.8
+1
+70,10
+-10,22,17
+1
+1
+
+
+#mirrors
+bottom,top limits
+left,right limits
+M1 Corner1 x,y
+Corner2 x,y
+Radius
+Curvature Direction
+M2 Corner1 x,y
+Corner2 x,y
+Radius
+Curvature Direction
+Move PMTs 1=yes
+FP1 x,y
+phi
+2nd PMT 1=yes
+FP2 x,y
+phi
+Transport
+z=0 point
+1=disp 2=trans
+dTheta,#points Cerenkov angle
+dPlo,dPhi,#points
+Move FP 1=yes
+Move FP 1=yes
+

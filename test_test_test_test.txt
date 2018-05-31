@@ -1,0 +1,7 @@
+set dev post color sideways
+new plot
+set font duplex
+set card length 150
+set window x 3.260870 7.5 y 2.300000 9.8
+set limits x 0.000000 130.000000 y -110.000000 120.000000
+title 0.5 1.500000 size 1.25 'Mirror One:'
