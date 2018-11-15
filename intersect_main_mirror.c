@@ -19,10 +19,6 @@ int intersect_main_mirror( MIRROR* m, RAY* r, TCanvas* c1) {
     c = dx*dx + dy*dy - m->R*m->R;
     dis = b*b - 4.0*c;
 
-
-
-
-
     if( dis > 0.0 ) { /* if true, does intersect circle */
 
        t1 = 0.5*(-b + sqrt(dis));
@@ -76,11 +72,6 @@ int intersect_main_mirror( MIRROR* m, RAY* r, TCanvas* c1) {
  	   
        delete traj_in;
 	   
-
-
-
-
-
        r->x = x;
        r->y = y;
        nx = -(x-m->Cx)/m->R; /*calculate normal to mirror at intersection pt*/
@@ -97,6 +88,7 @@ int intersect_main_mirror( MIRROR* m, RAY* r, TCanvas* c1) {
        if( r->theta < 0.0 )
           r->theta += 2.0*PI;
        return( 1 );
+
 
    } else { 
        return( 0 );

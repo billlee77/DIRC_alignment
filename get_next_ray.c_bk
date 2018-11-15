@@ -325,45 +325,26 @@ int get_next_ray(RAY* r, float left, float right) {
 	
     		r->theta = -42.13* asin(1.0)/90 ;
 
-//    		r->x = 22.0;
-//    		r->y = 38.0;
+    		r->x = 22.0;
+    		r->y = 38.0;
 
 
-//    		r->x = 22.0;
-//    		r->y = 38.0;
+//    		r->x = 19.9876;
+//    		r->y = 40.2249;
 
-//  	  		r->x = reference_x +  23 * sin(abs(r->theta));
-//    			r->y = reference_y -  23 * cos(abs(r->theta));
+			cout << "Setup  the ray " << endl;
+			
+//			exit(0);
 
 
+// 		   		r->x = 22.0 +  (-15) * sin(abs(r->theta));
+//     			r->y = 38.0 -  (-15) * cos(abs(r->theta));
+// 		
+// 				
+//      			r->theta = -65* asin(1.0)/90 ;
+// 
+// 
 
-  	  		r->x = reference_x +  (5) * sin(abs(r->theta));
-   			r->y = reference_y -  (5) * cos(abs(r->theta));
- 
-//      		r->theta = -60* asin(1.0)/90;
- 
- 
- //    		r->x = 19.9876;
- //    		r->y = 40.2249;
- 
- 			cout << "Setup  the ray " << endl;
- 			
- //			exit(0);
- 
- 
-//  		   		r->x = 22.0 +  (-15) * sin(abs(r->theta));
-//      			r->y = 38.0 -  (-15) * cos(abs(r->theta));
-  		
-  				
-      			r->theta = -60* asin(1.0)/90 ;
- // 
- // 
- 
-//  		   		r->x = reference_x +  22 * sin(abs(r->theta));
-//    			r->y = reference_y -  22 * cos(abs(r->theta));
-
-// 		   		r->x = reference_x +  27 * sin(abs(r->theta));
-//    			r->y = reference_y -  27 * cos(abs(r->theta));
 
 
 			
@@ -397,28 +378,26 @@ int get_next_ray(RAY* r, float left, float right) {
 
 			if (ray_number == 1) {
 
- 		   		r->x = reference_x +  12 * sin(abs(r->theta));
-    			r->y = reference_y -  12 * cos(abs(r->theta));
+ 		   		r->x = 22.0 -  (-7) * sin(abs(r->theta));
+    			r->y = 38.0 +  (-7) * cos(abs(r->theta));
 
 			} else if(ray_number == 2) {
  
-
- 		   		r->x = reference_x +  17 * sin(abs(r->theta));
-    			r->y = reference_y -  17 * cos(abs(r->theta));
-
+		   		r->x = 22.0 -  7 * sin(abs(r->theta));
+    			r->y = 38.0 +  7 * cos(abs(r->theta));
 
 			} else if(ray_number == 3) {
  
-
- 		   		r->x = reference_x +  22 * sin(abs(r->theta));
-    			r->y = reference_y -  22 * cos(abs(r->theta));
+		   		r->x = 22.0 +  (-3) * sin(abs(r->theta));
+    			r->y = 38.0 -  (-3) * cos(abs(r->theta));
 
 			} else if(ray_number == 4) {
-
- 		   		r->x = reference_x +  27 * sin(abs(r->theta));
-    			r->y = reference_y -  27 * cos(abs(r->theta));
-
+ 
+		   		r->x = 22.0 +  (-15) * sin(abs(r->theta));
+    			r->y = 38.0 -  (-15) * cos(abs(r->theta));
 		
+     			r->theta = -55* asin(1.0)/90;
+
 			} 
 
 		}

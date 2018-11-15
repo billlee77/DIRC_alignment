@@ -65,6 +65,12 @@ float x1,yy1,x2,y2,rr;
 
 //void set_main_mirror(&m1,out);
 
+Double_t reference_x;
+Double_t reference_y;
+
+Double_t global_offset_x;
+Double_t global_offset_y;
+
 
 using namespace std;
 
@@ -79,8 +85,20 @@ int main()
  	float t,b,l,r;
  	int nmirror,hit,cycle,i,npmt=0;
 
+	mirror_stats mirr_stat;
+
+// 	mirr_stat.side_flat_mirror.x_pos = 20;
+// 	mirr_stat.side_flat_mirror.y_pos = 30;
+// 	mirr_stat.side_flat_mirror.angle = 40;
+// 	mirr_stat.side_flat_mirror.width = 50;
+// 	mirr_stat.testtest= 780;
+
 
 	TCanvas* c1 = new TCanvas("c1", "c1", 600, 800);
+
+	c1->SetRightMargin(0.1);
+	c1->SetTopMargin(0.1);
+
 
  	MIRROR m1,m2;
  	RAY    r1;
@@ -261,13 +279,35 @@ int main()
 		fprintf(out,"title 0.5 %f size 1.25 'Mirror One:'\n",9.0-y);
 
 
+		//double test = 5;
+
+		//(mirr_stat.flat_mirror_dim)->x_pos = 6;
+
+		mirr_stat.flat_mirror_dim    = new MIRROR_DIM;
+		mirr_stat.window_dim         = new MIRROR_DIM;
+		mirr_stat.pmt_window_dim     = new MIRROR_DIM;
+		mirr_stat.side_reflector_dim = new MIRROR_DIM;
+		mirr_stat.side_honrizontal_mirror_dim = new MIRROR_DIM;
+
+		mirr_stat.composite_mirror_dim = new COMP_MIRR;
+
+// 		(mirr_stat.flat_mirror_dim)->x_pos = 6;
+// 
+// 		cout << (mirr_stat.flat_mirror_dim)->x_pos << endl;; 
 
 
+//		MIRROR_DIM* (mirr_stat.)flat_mirror_dim = new MIRROR_DIM;
 
 
-		cout << "1st corner " << m1.X1x << "   " << m1.X1y << "   " << double(m1.phi) << "     " << asin(1.0)/90.0<< endl;
+//		mirr_stat.flat_mirror_dim
 
- 		draw_mirror(&m1, c1);
+//		exit(0);
+
+//		cout << "1st corner " << m1.X1x << "   " << m1.X1y << "   " << double(m1.phi) << "     " << asin(1.0)/90.0<< endl;
+
+// 		draw_mirror(&m1, c1);
+ 		draw_mirror(&mirr_stat, c1);
+
 
 // 		draw_mirror();
 
@@ -281,161 +321,167 @@ int main()
 
 /* we will what to run this part twice so that we can reposition the PMTs to
 where the focal spot actually is, not where it was calculated to be */		
-		if( cycle == SECOND ) {
-
-			cout << " cycle == Second? " << endl;
-			reset_get_ray();
-		}
-       		num_caught=0;
+// 		if( cycle == SECOND ) {
+// 
+// 			cout << " cycle == Second? " << endl;
+// 			reset_get_ray();
+// 		}
+//        		num_caught=0;
 
 /* the functions in the conditionals return TRUE such that the way they are
 read make sense, i.e. while there is another ray to get... */
 
 		Int_t i = 0;
 
-		while( get_next_ray(&r1, left, right) ) {
-
-//			cout << i++ << endl;
-//			cout << "While loop ~~~~ " << endl; 
-
-		   	hit = 0;
-
- 		   	if( intersect_main_mirror(&m1, &r1, c1) ) {
-
-// 
-// 
+// 		while( get_next_ray(&r1, left, right) ) {
+ 		while( get_next_ray(&r1, left, right) ) {
+ 
+ //			cout << i++ << endl;
+ //			cout << "While loop ~~~~ " << endl; 			
+ 
+ 		   	hit = 0;
 
 
-				
-				flat_reflect(&m1, &r1, c1);
+			cout << "Reflect flat mirror"  << endl;
+	
+//		 	get_next_ray(&r1, left, right);
+//			intersect_main_mirror(&m1, &r1, c1);
 
- 				hit = hit_PMT(&m1, &r1, &s1, c1);
+			flat_reflect(&mirr_stat, &r1, c1);
 
+
+//  		   	if( intersect_main_mirror(&m1, &r1, c1) ) {
+ 
+//				flat_reflect(&m1, &r1, c1);
+ 
+// 				hit = hit_PMT(&m1, &r1, &s1, c1);
+ 
 //		      	follow_ray_out(&r1, c1, left, right, top, bottom);
+ 
+ 
+//  		    }                       
+ 
+ 	    }
 
 
- 		    }                       
 
-// else if( nmirror==2 ) {
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
 // 
-// 				if( intersect_main_mirror(&m2,&r1,out) ) {
 // 
-// 					if( npmt == 2 ) {
-// 		         		hit = hit_PMT(&m2,&r1,out,&s2);
-// 					}
-// 		        }
-// 			}
-
-
-//		   	if( hit == 0 )
-//		      		follow_ray_out(&r1,out,left,right,top,bottom);
-///*			fprintf(eff1,"% f   % f\n",s1.s,s1.angle);	*/
-
-	    }
-
-
-
-	    cout << "While loop ouit ~~~~ " << endl; 
-
-
-
-//		s1.avg = s1.sum/s1.n;
-//		s1.sd = sqrt( s1.sumsqr/s1.n - s1.avg*s1.avg );
-//		if( npmt == 2 )
-//			{
-//			s2.avg = s2.sum/s2.n;
-//			s2.sd = sqrt( s2.sumsqr/s2.n - s2.avg*s2.avg );
-//			}
-//	        
-//		fprintf(out,"title 'in:  %d,  caught:  %d, eff:  %3.2f%%,",
-//		  	ray_number,num_caught,
-//			((float)num_caught)/((float)ray_number)*100.0 );
-//		if( npmt == 2 )
-//		  {
-//			fprintf(out,"  spot sizes:  %3.2f%%, %3.2f%%'\n",
-//				fabs(s1.max - s1.min)/	PMT_SIZE*50.0,
-//				fabs(s2.max - s2.min)/PMT_SIZE*50.0);
-//
-
-
-
-
-
-///* gh: output results */
-//		    if( cycle==FIRST )
-//		       {
-//		        fprintf(eff2," %3.0f %3.0f %3.0f %3.0f %3.0f ",
-//				m1.R,m1.X1x,m1.X2x,m2.X1x,m2.X2x);
-//
-//		        fprintf(eff2," %3.0f %4.0f %3.0f  %3.0f %4.0f %3.0f ",
-//				m1.Fx,m1.Fy,m1.phi*57.295,m2.Fx,m2.Fy,m2.phi*57.295);
-//                       }
-//		  }
-//		else
-//			fprintf(out,"  spot size:  %3.2f%%'\n",
-//				fabs(s1.max - s1.min)/PMT_SIZE*50.0);
-//		fprintf(out,"title bottom 'Z (cm)'\n");
-//		if( using_x_direction )
-//		   fprintf(out,"title left   'X (cm)'\n");
-//		else
-//		   fprintf(out,"title left   'Y (cm)'\n");
-//		fclose( out );
-//		if( npmt == 2)
-//		  {
-//			printf("in:  %d,  caught:  %d, eff:  %3.2f%%,  spot sizes:  %3.2f%%  %3.2f%%\n",
-//		   		ray_number,
-//				num_caught,
-//				((float)num_caught)/((float)ray_number)*100.0,
-//				fabs(s1.max - s1.min)/PMT_SIZE*50.0,
-//				fabs(s2.max - s2.min)/PMT_SIZE*50.0);
-///* gh: output results */
-//		    if( cycle==SECOND )
-//		       {
-//		        fprintf(eff2," %3.1f %4.1f %3.0f  %3.1f %4.1f %3.0f ",
-//				m1.Fx,m1.Fy,m1.phi*57.295,m2.Fx,m2.Fy,m2.phi*57.295);
-//
-//		        fprintf(eff2," %3.2f %3.2f %3.2f ",
-//			  ((float)num_caught)/((float)ray_number)*100.0 ,  /* eff   */
-//			  fabs(s1.max - s1.min)/PMT_SIZE*50.0,             /* spot1 */
-//			  fabs(s2.max - s2.min)/PMT_SIZE*50.0);            /* spot2 */
-//                       }
-//		  }
-//		else
-//			printf("in:  %d,  caught:  %d, eff:  %3.2f%%,  spot size:  %3.2f%%\n",
-//		   		ray_number,
-//				num_caught,
-//				((float)num_caught)/((float)ray_number)*100.0,
-//				fabs(s1.max - s1.min)/PMT_SIZE*50.0);
-//
-///*		fprintf(eff1,"%6.2f  %6.2f  %6.2f  ",m1.Fx,m1.Fy,
-//			((float)num_caught)/((float)ray_number)*100.0); */
-//		if( npmt == 2 )
-//			size = 0.5*( fabs(s1.max - s1.min)/PMT_SIZE*50.0
-//				 +   fabs(s2.max - s2.min)/PMT_SIZE*50.0 );
-//		else
-//			size = fabs(s1.max - s1.min)/PMT_SIZE*50.0;
-///*		fprintf(eff1,"%6.2f  ",size); */
-//
-
-
-
-
-///*--------------------------------------------------*/
-///*--------------------------------------------------*/
-///*--------------------------------------------------*/
-//		printf("Reposition focal point (1=yes)?  ");
-//		scanf("%d",&i);
-//		if( i != 1 )
-//	               	cycle = SECOND;
-//		if( cycle == FIRST )
-//			{
-//			reposition_fpoint(&m1,&s1);
-//			if( npmt == 2 )
-//				reposition_fpoint(&m2,&s2);
-//			}
-///*--------------------------------------------------*/
-///*--------------------------------------------------*/
-
+// 	    cout << "While loop ouit ~~~~ " << endl; 
+// 
+// 
+// 
+// //		s1.avg = s1.sum/s1.n;
+// //		s1.sd = sqrt( s1.sumsqr/s1.n - s1.avg*s1.avg );
+// //		if( npmt == 2 )
+// //			{
+// //			s2.avg = s2.sum/s2.n;
+// //			s2.sd = sqrt( s2.sumsqr/s2.n - s2.avg*s2.avg );
+// //			}
+// //	        
+// //		fprintf(out,"title 'in:  %d,  caught:  %d, eff:  %3.2f%%,",
+// //		  	ray_number,num_caught,
+// //			((float)num_caught)/((float)ray_number)*100.0 );
+// //		if( npmt == 2 )
+// //		  {
+// //			fprintf(out,"  spot sizes:  %3.2f%%, %3.2f%%'\n",
+// //				fabs(s1.max - s1.min)/	PMT_SIZE*50.0,
+// //				fabs(s2.max - s2.min)/PMT_SIZE*50.0);
+// //
+// 
+// 
+// 
+// 
+// 
+// ///* gh: output results */
+// //		    if( cycle==FIRST )
+// //		       {
+// //		        fprintf(eff2," %3.0f %3.0f %3.0f %3.0f %3.0f ",
+// //				m1.R,m1.X1x,m1.X2x,m2.X1x,m2.X2x);
+// //
+// //		        fprintf(eff2," %3.0f %4.0f %3.0f  %3.0f %4.0f %3.0f ",
+// //				m1.Fx,m1.Fy,m1.phi*57.295,m2.Fx,m2.Fy,m2.phi*57.295);
+// //                       }
+// //		  }
+// //		else
+// //			fprintf(out,"  spot size:  %3.2f%%'\n",
+// //				fabs(s1.max - s1.min)/PMT_SIZE*50.0);
+// //		fprintf(out,"title bottom 'Z (cm)'\n");
+// //		if( using_x_direction )
+// //		   fprintf(out,"title left   'X (cm)'\n");
+// //		else
+// //		   fprintf(out,"title left   'Y (cm)'\n");
+// //		fclose( out );
+// //		if( npmt == 2)
+// //		  {
+// //			printf("in:  %d,  caught:  %d, eff:  %3.2f%%,  spot sizes:  %3.2f%%  %3.2f%%\n",
+// //		   		ray_number,
+// //				num_caught,
+// //				((float)num_caught)/((float)ray_number)*100.0,
+// //				fabs(s1.max - s1.min)/PMT_SIZE*50.0,
+// //				fabs(s2.max - s2.min)/PMT_SIZE*50.0);
+// ///* gh: output results */
+// //		    if( cycle==SECOND )
+// //		       {
+// //		        fprintf(eff2," %3.1f %4.1f %3.0f  %3.1f %4.1f %3.0f ",
+// //				m1.Fx,m1.Fy,m1.phi*57.295,m2.Fx,m2.Fy,m2.phi*57.295);
+// //
+// //		        fprintf(eff2," %3.2f %3.2f %3.2f ",
+// //			  ((float)num_caught)/((float)ray_number)*100.0 ,  /* eff   */
+// //			  fabs(s1.max - s1.min)/PMT_SIZE*50.0,             /* spot1 */
+// //			  fabs(s2.max - s2.min)/PMT_SIZE*50.0);            /* spot2 */
+// //                       }
+// //		  }
+// //		else
+// //			printf("in:  %d,  caught:  %d, eff:  %3.2f%%,  spot size:  %3.2f%%\n",
+// //		   		ray_number,
+// //				num_caught,
+// //				((float)num_caught)/((float)ray_number)*100.0,
+// //				fabs(s1.max - s1.min)/PMT_SIZE*50.0);
+// //
+// ///*		fprintf(eff1,"%6.2f  %6.2f  %6.2f  ",m1.Fx,m1.Fy,
+// //			((float)num_caught)/((float)ray_number)*100.0); */
+// //		if( npmt == 2 )
+// //			size = 0.5*( fabs(s1.max - s1.min)/PMT_SIZE*50.0
+// //				 +   fabs(s2.max - s2.min)/PMT_SIZE*50.0 );
+// //		else
+// //			size = fabs(s1.max - s1.min)/PMT_SIZE*50.0;
+// ///*		fprintf(eff1,"%6.2f  ",size); */
+// //
+// 
+// 
+// 
+// 
+// ///*--------------------------------------------------*/
+// ///*--------------------------------------------------*/
+// ///*--------------------------------------------------*/
+// //		printf("Reposition focal point (1=yes)?  ");
+// //		scanf("%d",&i);
+// //		if( i != 1 )
+// //	               	cycle = SECOND;
+// //		if( cycle == FIRST )
+// //			{
+// //			reposition_fpoint(&m1,&s1);
+// //			if( npmt == 2 )
+// //				reposition_fpoint(&m2,&s2);
+// //			}
+// ///*--------------------------------------------------*/
+// ///*--------------------------------------------------*/
+// 
 		}
 
 	c1->Print("mirror.eps");
