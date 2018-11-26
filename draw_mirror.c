@@ -85,9 +85,9 @@ void draw_mirror(mirror_stats* m, TCanvas* c1) {
 	TGraph* fix_pin_gr = new TGraph(); 
 
 
- 	mirr_mis->rot_center_x = 20.0;
- 	mirr_mis->rot_center_y = 30.0;
- 	mirr_mis->rot_angle    = 5;
+ 	mirr_mis->rot_center_x = 17.13638;
+ 	mirr_mis->rot_center_y = 29.78344;
+ 	mirr_mis->rot_angle    = 3;
 
 	fix_pin_gr->SetPoint(0, mirr_mis->rot_center_x, mirr_mis->rot_center_y);
 
